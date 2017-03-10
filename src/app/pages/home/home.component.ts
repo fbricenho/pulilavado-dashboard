@@ -1,21 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
-interface Cliente {
-  id: {
-    available: boolean
-    nombre: string,
-    cedula: string,
-    correo: string,
-    vehiculo: {
-      id: {
-        año: string,
-        marca: string,
-        modelo: string,
-        tipo: string
-      }
-    }
-  };
-}
+
 @Component({
   selector: 'home',
   styleUrls: ['./home.scss'],
@@ -28,12 +13,12 @@ export class Home implements OnInit {
   items: FirebaseListObservable<any>;
 
   constructor( af: AngularFire ) {
-    this.items = af.database.list('/cliente/');
+    this.items = af.database.list('/');
   }
 
   ngOnInit() {
     this.items.subscribe( (data) => {
-      let cliente: Cliente = data;
+      let cliente = data;
       console.log(cliente);
     });
   }

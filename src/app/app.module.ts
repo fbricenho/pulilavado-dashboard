@@ -19,6 +19,7 @@ import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 
 import { AngularFireModule } from 'angularfire2';
+import { Ng2Webstorage } from 'ng2-webstorage';
 
 export const firebaseConfig = {
     // Initialize Firebase
@@ -57,6 +58,7 @@ export type StoreType = {
     ReactiveFormsModule,
     NgaModule.forRoot(),
     PagesModule,
+    Ng2Webstorage,
     routing, AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
