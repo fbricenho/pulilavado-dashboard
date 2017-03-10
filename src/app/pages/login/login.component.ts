@@ -17,6 +17,7 @@ export class Login implements OnInit {
   public password: AbstractControl;
   public submitted: boolean = false;
   public usuario;
+  public aux: boolean = false;
 
   users: FirebaseListObservable<any>;
 
@@ -37,7 +38,21 @@ export class Login implements OnInit {
 
   ngOnInit() {
     if (this.localSt.retrieve('user')) {
-      this.route.navigate(['pages/home']);
+      this.users.subscribe((user: any[]) => {
+        user.map((e) => {
+          let passwordString: string = e.password.toString();
+          if ((this.localSt.retrieve('user').email === e.email) &&
+              (this.localSt.retrieve('user').password === passwordString)) {
+                this.aux = true;
+          }
+        });
+        if (this.aux) {
+          this.route.navigate(['/pages/home']);
+        }
+        else {
+          this.localSt.clear();
+        }
+      });
     }
   }
 
