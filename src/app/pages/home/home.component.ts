@@ -16,6 +16,7 @@ export class Home implements OnInit {
   public items: FirebaseListObservable<any>;
   public aux: boolean = false;
   public showAccount = [];
+  public objectInfo: Object;
 
   query: string = '';
   settings = {
@@ -42,6 +43,7 @@ export class Home implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   users: FirebaseListObservable<any>;
   clients: FirebaseListObservable<any>;
+  productos: FirebaseListObservable<any>;
 
   constructor(
                           af: AngularFire,
@@ -50,6 +52,7 @@ export class Home implements OnInit {
     this.users = af.database.list('/user/');
     this.clients = af.database.list('/client/');
     this.items = af.database.list('/buy/');
+    this.productos = af.database.list('/product/');
     this.loadOn();
   }
 
@@ -81,39 +84,40 @@ export class Home implements OnInit {
 
 
   public loadOn() {
-    this.items.subscribe((data) => {
-      // Verify if there is data
-      if (data.length > 0) {
-        // maping of the array
-        data.map((e) => {
-          if (e.payed === false) {
-            // varify if the pay or not
-            this.clients.subscribe((client) => {
-              // get data of the client
-              client.map( (cliente) => {
-                if (cliente.$key === e.idClient.toString()) {
-                  let id = e.idClient;
-                  console.log('data:');
-                  console.log(data);
-                  console.log('client:');
-                  console.log(client);
-                  console.log('cliente.name:');
-                  console.log(cliente.name);
-                  let name = cliente.name;
-                  let objectInfo: Object = {
-                    id,
-                    name,
-                    account: '3000'
-                  };
-                  console.log(objectInfo);
-                  this.showAccount.push(objectInfo);
-                  this.source.load(this.showAccount);
-                }
-              });
+    this.clients.subscribe((client) => {
+      this.items.subscribe((order) => {
+        this.productos.subscribe((inventariado) => {
+          client.map( (cliente) => {
+            let precio = 0;
+            order.map( (orden) => {
+              if ( (orden.idClient.toString() === cliente.$key) && (orden.available === true) ) {
+                console.log('Cliente: ', cliente);
+                console.log('Orden: ', orden);
+                orden.product.map((producto) => {
+                  console.log('productos: ', producto);
+                    inventariado.map( (inventario) => {
+                      if (inventario.$key === producto.id.toString()) {
+                        console.log('Nombre', inventario.name);
+                        precio = (inventario.price * producto.quantity) + precio;
+                        // console.log(precio);
+                      }
+                    });
+                    console.log('Precio: ', precio);
+                });
+                this.objectInfo = {
+                  id: cliente.$key,
+                  name: cliente.name,
+                  account: precio + ' Bsf'
+                };
+                console.log(this.objectInfo);
+                this.showAccount.push(this.objectInfo);
+              }
             });
-          }
+          });
+          this.source.load(this.showAccount);
         });
-      }
+      });
     });
+    // this.source.load(this.showAccount);
   }
 }
