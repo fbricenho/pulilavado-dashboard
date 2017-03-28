@@ -83,9 +83,9 @@ export class Home implements OnInit {
 
 
   public loadOn() {
-    this.clients.subscribe((client) => {
-      this.items.subscribe((order) => {
-        this.productos.subscribe((inventariado) => {
+    let aux1 = this.clients.subscribe((client) => {
+      let aux2 = this.items.subscribe((order) => {
+        let aux3 = this.productos.subscribe((inventariado) => {
           client.map( (cliente) => {
             let precio = 0;
             order.map( (orden) => {
@@ -115,6 +115,9 @@ export class Home implements OnInit {
           });
           this.source.empty();
           this.source.load(this.showAccount);
+          aux1.unsubscribe();
+          aux2.unsubscribe();
+          aux3.unsubscribe();
         });
       });
     });

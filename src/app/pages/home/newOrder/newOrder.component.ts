@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'newOrder',
@@ -14,6 +15,7 @@ export class NewOrder {
   clients: FirebaseListObservable<any>;
 
   constructor(
+              public route: Router,
               public af: AngularFire
             ){
     this.clients = af.database.list('/client/');
@@ -26,16 +28,21 @@ export class NewOrder {
     if (this.idInputModel) {
       let aux: boolean = false;
       let movimiento: string = '';
-      this.orders.subscribe((data) => {
+      let orders$ = this.orders.subscribe((data) => {
         data.map((e) => {
           if ((e.idClient === this.idInputModel) && (e.available === true)) {
             aux = true;
             movimiento = e.$key;
           }
         });
-        if (aux === true) {
+        if (aux) {
           console.log('Coincidencia: ', this.idInputModel);
           console.log(movimiento);
+          // TO REMOVE AN ID OBJECT ====>
+          // this.af.database.object('/buy/' + movimiento).remove();
+          this.route.navigate(['']);
+          orders$.unsubscribe();
+          // this.af.database.list('/buy/' + movimiento).remove();
         }
         else {
           console.log('Puedes proseguir: ', this.idInputModel);
@@ -59,7 +66,7 @@ export class NewOrder {
             quantity: 1
         } ]
       };
-      this.af.database.list('/buy/', movimiento).push(compra);
+      this.af.database.list('/buy/').push(compra);
       this.orders.push(compra);
   }
 }
