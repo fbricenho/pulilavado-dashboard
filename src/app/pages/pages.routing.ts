@@ -20,6 +20,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', loadChildren: 'app/pages/home/home.module#HomeModule' },
+      { path: 'store', loadChildren: 'app/pages/store/store.module#StoreModule' },
+      { path: 'manage', loadChildren: 'app/pages/manage/manage.module#ManageModule' },
       { path: 'logout', loadChildren: 'app/pages/logout/logout.module#LogoutModule' }
     ]
   }

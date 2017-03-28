@@ -60,9 +60,10 @@ export class Login implements OnInit {
     this.submitted = true;
     if (this.form.valid) {
       this.users.subscribe((user: any[]) => {
+        console.log(user);
         user.map((e) => {
           let passwordString: string = e.password.toString();
-          if ((this.email.value === e.email) && (this.password.value === passwordString)) {
+          if ((this.email.value === e.email) && (this.password.value === passwordString) && (e.available === true)) {
             this.usuario =  {
               email: this.email.value,
               password: this.password.value

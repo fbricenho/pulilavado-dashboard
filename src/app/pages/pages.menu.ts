@@ -6,7 +6,7 @@ export const PAGES_MENU = [
         path: 'home',
         data: {
           menu: {
-            title: 'Home',
+            title: 'Inicio',
             icon: 'ion-home',
             selected: false,
             expanded: false,
@@ -15,10 +15,10 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: '',
+        path: 'store',
         data: {
           menu: {
-            title: 'Store',
+            title: 'Inventario',
             icon: 'ion-clipboard',
             selected: false,
             expanded: false,
@@ -27,10 +27,10 @@ export const PAGES_MENU = [
         }
       },
       {
-        path: '',
+        path: 'manage',
         data: {
           menu: {
-            title: 'User Manager',
+            title: 'Gestion de cuentas',
             icon: 'ion-person-stalker',
             selected: false,
             expanded: false,
@@ -42,7 +42,7 @@ export const PAGES_MENU = [
         path: 'logout',
         data: {
           menu: {
-            title: 'Logout',
+            title: 'Desconectar',
             icon: 'ion-power',
             selected: false,
             expanded: false,

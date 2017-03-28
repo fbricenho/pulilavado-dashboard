@@ -3,8 +3,8 @@ import { CommonModule }  from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 
-import { NewOrder } from './newOrder.component';
-// import { routing }       from './newOrder.routing';
+import { CloseOrder } from './closeOrder.component';
+// import { routing }       from './CloseOrder.routing';
 
 
 @NgModule({
@@ -15,8 +15,8 @@ import { NewOrder } from './newOrder.component';
     // routing
   ],
   declarations: [
-    NewOrder
+    CloseOrder
   ],
   providers: []
 })
-export class NewOrderModule {}
+export class CloseOrderModule {}

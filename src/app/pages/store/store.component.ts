@@ -5,12 +5,13 @@ import { LocalStorageService, LocalStorage, SessionStorageService } from 'ng2-we
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'home',
-  styleUrls: ['./home.scss'],
-  templateUrl: './home.html'
+  selector: 'store',
+  styleUrls: ['./store.scss'],
+  templateUrl: './store.html'
 })
 
-export class Home implements OnInit {
+export class Store implements OnInit {
+
 
   public items: FirebaseListObservable<any>;
   public aux: boolean = false;
@@ -24,17 +25,30 @@ export class Home implements OnInit {
       edit: false,
       delete: false
     },
+    noDataMessage: 'No hay registros almacenados',
     columns: {
       id: {
-        title: 'Cedula',
+        title: 'Codigo',
         type: 'string'
       },
       name: {
         title: 'Nombre',
         type: 'string'
       },
-      account: {
-        title: 'A pagar',
+      type: {
+        title: 'Tipo',
+        type: 'string'
+      },
+      price: {
+        title: 'Precio',
+        type: 'string'
+      },
+      quantity: {
+        title: 'Existencia',
+        type: 'string'
+      },
+      status: {
+        title: 'Estado',
         type: 'string'
       }
     }
@@ -83,41 +97,28 @@ export class Home implements OnInit {
 
 
   public loadOn() {
-    this.clients.subscribe((client) => {
-      this.items.subscribe((order) => {
-        this.productos.subscribe((inventariado) => {
-          client.map( (cliente) => {
-            let precio = 0;
-            order.map( (orden) => {
-              if ( (orden.idClient.toString() === cliente.$key) && (orden.available === true) ) {
-                // console.log('Cliente: ', cliente);
-                // console.log('Orden: ', orden);
-                orden.product.map((producto) => {
-                  // console.log('productos: ', producto);
-                    inventariado.map( (inventario) => {
-                      if (inventario.$key === producto.id.toString()) {
-                        // console.log('Nombre', inventario.name);
-                        precio = (inventario.price * producto.quantity) + precio;
-                        // console.log(precio);
-                      }
-                    });
-                    // console.log('Precio: ', precio);
-                });
-                this.objectInfo = {
-                  id: cliente.$key,
-                  name: cliente.name,
-                  account: precio + ' Bsf'
-                };
-                // console.log(this.objectInfo);
-                this.showAccount.push(this.objectInfo);
-              }
-            });
-          });
-          this.source.empty();
-          this.source.load(this.showAccount);
-        });
+    this.productos.subscribe( (products) => {
+      console.log(products);
+      products.map((data) => {
+        console.log(data);
+        let aux: string = '';
+        if (data.available === true) {
+          aux = 'habilitado';
+        }
+        else {
+          aux = 'deshabilitado';
+        }
+        let prod = {
+          id: data.$key,
+          name: data.name,
+          type: data.type,
+          price: data.price,
+          quantity: data.quantity,
+          status: aux
+        };
+        this.showAccount.push(prod);
       });
+      this.source.load(this.showAccount);
     });
-    // this.source.load(this.showAccount);
   }
 }

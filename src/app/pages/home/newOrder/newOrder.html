@@ -1,0 +1,13 @@
+<ba-card title="Crear/Modificar una orden" baCardClass="with-scroll table-panel">
+  <div class="form-horizontal">
+    <div class="form-group row">
+      <label for="inputId" class="col-sm-12 col-md-7 col-lg-12 form-control-label">Ingrese una cedula:</label>
+      <div class="col-sm-12 col-md-5 col-lg-9">
+        <input type="number" class="form-control" [(ngModel)]="idInputModel" id="inputId" placeholder="Cedula">
+      </div>
+			<div class="col-sm-12 col-md-12 col-lg-2 text-right">
+        <button type="submit" (click)='onsubmit($event)' class="btn btn-primary">Crear</button>
+      </div>
+    </div>
+  </div>
+</ba-card>

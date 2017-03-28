@@ -17,7 +17,7 @@ import { PAGES_MENU } from './pages.menu';
     </div>
     <footer class="al-footer clearfix">
       <div class="al-footer-main clearfix">
-        <div class="al-copy">&copy; 2017</div>
+        <!-- <div class="al-copy">&copy; 2017</div> -->
       </div>
     </footer>
     <ba-back-top position="200"></ba-back-top>

@@ -1,37 +1,17 @@
-<div class="col-lg-6 col-md-6">
-  <ba-card title="Close an order" baCardClass="with-scroll table-panel">
-      <div class="form-horizontal form-group row">
-        <label for="optionSelect" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Please set an ID:</label>
-        <div class="col-sm-6 col-md-6 col-lg-12">
-          <select id="optionSelect" class="form-control"></select>
-        </div>
-      </div>
-  </ba-card>
-</div>
-<div class="col-lg-6 col-md-6">
-  <ba-card title="Create an order" baCardClass="with-scroll table-panel">
-    <form class="form-horizontal">
-      <div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Please set an ID:</label>
-        <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="number" class="form-control" id="inputId1" placeholder="ID">
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10 text-right">
-          <button type="submit" class="btn btn-primary">Create</button>
-        </div>
-      </div>
-    </form>
-
-  </ba-card>
-</div>
-<div class="col-lg-12 col-md-12">
-  <ba-card title="Orders" baCardClass="with-scroll table-panel">
-      <div *ngIf="!items" class="form-group text-center">
+<div>
+  <div class="col-lg-6 col-md-12">
+    <closeOrder></closeOrder>
+  </div>
+  <div class="col-lg-6 col-md-12">
+    <newOrder></newOrder>
+  </div>
+  <div class="col-lg-12 col-md-12">
+    <ba-card title="Ordenes activas" baCardClass="with-scroll table-panel">
+      <div *ngIf="!objectInfo" class="form-group text-center">
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         <span class="sr-only">Loading...</span>
-    </div>
-      <ng2-smart-table *ngIf="items" [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
-  </ba-card>
+      </div>
+      <ng2-smart-table *ngIf="objectInfo" [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table>
+    </ba-card>
+  </div>
 </div>

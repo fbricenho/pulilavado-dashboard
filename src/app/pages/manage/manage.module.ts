@@ -1,28 +1,24 @@
 import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { Home } from './home.component';
-import { NewOrder } from './newOrder/newOrder.component';
-import { CloseOrder } from './closeOrder/closeOrder.component';
-import { routing }       from './home.routing';
+import { Manage } from './manage.component';
+import { routing }       from './manage.routing';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     NgaModule,
     routing,
     Ng2SmartTableModule
   ],
   declarations: [
-    Home,
-    NewOrder,
-    CloseOrder
-  ],
-  providers: []
+    Manage
+  ]
 })
-export class HomeModule {}
+export class ManageModule {}
