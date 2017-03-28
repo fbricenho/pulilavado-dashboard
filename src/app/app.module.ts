@@ -20,6 +20,8 @@ import { PagesModule } from './pages/pages.module';
 
 import { AngularFireModule } from 'angularfire2';
 import { Ng2Webstorage } from 'ng2-webstorage';
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
 export const firebaseConfig = {
     // Initialize Firebase
@@ -59,6 +61,8 @@ export type StoreType = {
     NgaModule.forRoot(),
     PagesModule,
     Ng2Webstorage,
+    ModalModule.forRoot(),
+    BootstrapModalModule,
     routing, AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

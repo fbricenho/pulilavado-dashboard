@@ -38,11 +38,8 @@ export class NewOrder {
         if (aux) {
           console.log('Coincidencia: ', this.idInputModel);
           console.log(movimiento);
-          // TO REMOVE AN ID OBJECT ====>
-          // this.af.database.object('/buy/' + movimiento).remove();
           this.route.navigate(['']);
           orders$.unsubscribe();
-          // this.af.database.list('/buy/' + movimiento).remove();
         }
         else {
           console.log('Puedes proseguir: ', this.idInputModel);
