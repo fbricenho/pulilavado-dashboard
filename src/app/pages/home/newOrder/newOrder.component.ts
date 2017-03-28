@@ -28,8 +28,7 @@ export class NewOrder {
       let movimiento: string = '';
       this.orders.subscribe((data) => {
         data.map((e) => {
-          console.log(e);
-          if (e.idClient === this.idInputModel) {
+          if ((e.idClient === this.idInputModel) && (e.available === true)) {
             aux = true;
             movimiento = e.$key;
           }
