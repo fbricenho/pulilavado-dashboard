@@ -2,25 +2,22 @@ import { NgModule }      from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgaModule } from '../../theme/nga.module';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { Manage } from './manage.component';
-import { NewClient } from './newClient/newClient.component';
-import { routing }       from './manage.routing';
+import { NewClient } from './newClient.component';
+// import { routing }       from './CloseOrder.routing';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     NgaModule,
-    routing,
-    Ng2SmartTableModule
+    // routing
   ],
   declarations: [
-    Manage,
     NewClient
-  ]
+  ],
+  providers: []
 })
-export class ManageModule {}
+export class NewClientModule {}

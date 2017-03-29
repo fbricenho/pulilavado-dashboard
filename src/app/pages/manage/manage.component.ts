@@ -3,6 +3,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { LocalDataSource } from 'ng2-smart-table';
 import { LocalStorageService, LocalStorage, SessionStorageService } from 'ng2-webstorage';
 import { Router, RouterModule } from '@angular/router';
+import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'manage',
@@ -12,61 +13,38 @@ import { Router, RouterModule } from '@angular/router';
 
 export class Manage implements OnInit {
 
-
-  public items: FirebaseListObservable<any>;
+  public view1Form: FormGroup;
+  public inputEmail: AbstractControl;
+  public inputName: AbstractControl;
+  public inputPassword: AbstractControl;
+  public inputRePassword: AbstractControl;
+  public inputAvailable: AbstractControl;
   public aux: boolean = false;
-  public showAccount = [];
-  public objectInfo: Object;
-
-  query: string = '';
-  settings = {
-    actions: {
-      add: false,
-      edit: false,
-      delete: false
-    },
-    noDataMessage: 'No hay registros almacenados',
-    columns: {
-      id: {
-        title: 'Codigo',
-        type: 'string'
-      },
-      name: {
-        title: 'Nombre',
-        type: 'string'
-      },
-      type: {
-        title: 'Tipo',
-        type: 'string'
-      },
-      price: {
-        title: 'Precio',
-        type: 'string'
-      },
-      quantity: {
-        title: 'Existencia',
-        type: 'string'
-      },
-      status: {
-        title: 'Estado',
-        type: 'string'
-      }
-    }
-  };
-  source: LocalDataSource = new LocalDataSource();
+  public view1: boolean = false;
+  public view2: boolean = false;
+  public view1M;
   users: FirebaseListObservable<any>;
-  clients: FirebaseListObservable<any>;
-  productos: FirebaseListObservable<any>;
 
-  constructor(
-                          af: AngularFire,
-              public localSt: LocalStorageService,
-              public   route: Router) {
+  constructor(public localSt: LocalStorageService,
+              public af: AngularFire,
+              public route: Router,
+              public fb: FormBuilder) {
+  this.view1Form = fb.group({
+        'inputEmail' : [this.view1M, Validators.compose([Validators.required, Validators.minLength(4)])],
+        'inputName': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+        'inputPassword': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+        'inputRePassword': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+        'inputAvailable': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
+      });
+
+    this.inputEmail = this.view1Form.controls['inputEmail'];
+    this.inputName = this.view1Form.controls['inputName'];
+    this.inputPassword = this.view1Form.controls['inputPassword'];
+    this.inputRePassword = this.view1Form.controls['inputRePassword'];
+    this.inputAvailable = this.view1Form.controls['inputAvailable'];
+
+
     this.users = af.database.list('/user/');
-    this.clients = af.database.list('/client/');
-    this.items = af.database.list('/buy/');
-    this.productos = af.database.list('/product/');
-    this.loadOn();
   }
 
   ngOnInit() {
@@ -94,9 +72,38 @@ export class Manage implements OnInit {
     }
   }
 
-
-
   public loadOn() {
+    console.log('cargado');
+  }
 
+  public onAccount(view1M: any) {
+    if (this.validateEmail(view1M)) {
+      console.log(view1M);
+      this.users.subscribe( (data) => {
+        let aux: boolean = false;
+        data.map((e) => {
+          if (e.email === view1M) {
+            aux = true;
+          }
+        });
+        if (aux) {
+          console.log('coincidencia');
+          this.view1 = !this.view1;
+        }
+        else {
+          console.log('no hubo coincidencia');
+        }
+      });
+    }
+  }
+
+  doView1Form(values: any) {
+    console.log(this.view1Form.controls);
+    console.log(this.view1M);
+  }
+
+  validateEmail(email) {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   }
 }

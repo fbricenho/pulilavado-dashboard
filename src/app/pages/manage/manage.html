@@ -1,103 +1,59 @@
-<div class="col-lg-6 col-md-6">
-  <ba-card title="Crear/Modificar una cuenta" baCardClass="with-scroll table-panel">
-    <form class="form-horizontal">
-      <div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Ingrese un correo:</label>
-        <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="email" class="form-control" id="inputId1" placeholder="Example@example.com">
-        </div>
+<div class="col-lg-6 col-md-12">
+  <ba-card title="Crear/Modificar una cuenta" baCardClass="with-scroll table-panel" >
+    <div class="form-group row">
+      <label for="inputEmail" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Ingrese un correo:</label>
+      <div class="col-sm-6 col-md-6 col-lg-12">
+        <input type="email" class="form-control" [(ngModel)]="view1M" id="inputEmail" placeholder="Example@example.com">
       </div>
-      <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10 text-right">
-          <button type="submit" class="btn btn-primary">Buscar</button>
-        </div>
+    </div>
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10 text-right">
+        <button type="submit" (click)="onAccount(view1M)" [(disabled)]="!view1M" class="btn btn-primary">Buscar</button>
       </div>
-    </form>
+    </div>
   </ba-card>
 
- <ba-card title="Revisa los datos del usuario" baCardClass="with-scroll table-panel">
-    <form class="form-horizontal">
+ <ba-card *ngIf="view1" title="Revisa los datos del usuario" baCardClass="with-scroll table-panel fade-in">
+    <form [formGroup]="view1Form" class="form-horizontal">
       <div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Correo: </label>
+        <label for="inputEmail" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Correo: </label>
         <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="email" class="form-control" id="inputId1" placeholder="Example@example.com">
+          <input [formControl]="inputEmail" type="email" class="form-control" id="inputEmail" placeholder="Example@example.com">
         </div>
       </div>
 			<div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Nombre: </label>
+        <label for="inputName" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Nombre: </label>
         <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="text" class="form-control" id="inputId1" placeholder="Francisco Briceño">
+          <input [formControl]="inputName" type="text" class="form-control" id="inputName" placeholder="Francisco Briceño">
         </div>
       </div>
 			<div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Contraseña: </label>
+        <label for="inputPassword" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Contraseña: </label>
         <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="password" class="form-control" id="inputId1" placeholder="Contraseña">
+          <input [formControl]="inputPassword" type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
         </div>
       </div>
 			<div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Repita contraseña: </label>
+        <label for="inputRePassword" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Repita contraseña: </label>
         <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="password" class="form-control" id="inputId1" placeholder="Contraseña">
+          <input [formControl]="inputRePassword" type="password" class="form-control" id="inputRePassword" placeholder="Contraseña">
         </div>
       </div>
 			<div class="form-group row">
-        <label for="optionSelect1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Habilitado: </label>
+        <label for="inputAvailable" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Habilitado: </label>
         <div class="col-sm-6 col-md-6 col-lg-12">
-          <select id="optionSelect1" class="form-control"></select>
+          <select [formControl]="inputAvailable" id="inputAvailable" class="form-control"></select>
         </div>
       </div>
       <div class="form-group row">
         <div class="offset-sm-2 col-sm-10 text-right">
-          <button type="submit" class="btn btn-primary">Buscar</button>
+          <button  (click)="doView1Form(view1Form.value)" type="submit" class="btn btn-primary">Buscar</button>
         </div>
       </div>
     </form>
   </ba-card>
 </div>
 
-<div class="col-lg-6 col-md-6">
-  <ba-card title="Crear/Modificar un cliente" baCardClass="with-scroll table-panel">
-    <form class="form-horizontal">
-      <div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Ingrese una cedula:</label>
-        <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="number" class="form-control" id="inputId1" placeholder="Cedula">
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10 text-right">
-          <button type="submit" class="btn btn-primary">Buscar</button>
-        </div>
-      </div>
-    </form>
-  </ba-card>
-
- <ba-card title="Revisa los datos del cliente" baCardClass="with-scroll table-panel">
-    <form class="form-horizontal">
-      <div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Correo: </label>
-        <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="email" class="form-control" id="inputId1" placeholder="Example@example.com">
-        </div>
-      </div>
-			<div class="form-group row">
-        <label for="inputId1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Nombre: </label>
-        <div class="col-sm-6 col-md-6 col-lg-12">
-          <input type="text" class="form-control" id="inputId1" placeholder="Francisco Briceño">
-        </div>
-      </div>
-			<div class="form-group row">
-        <label for="optionSelect1" class="col-sm-6 col-md-6 col-lg-12 form-control-label">Habilitado: </label>
-        <div class="col-sm-6 col-md-6 col-lg-12">
-          <select id="optionSelect1" class="form-control"></select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10 text-right">
-          <button type="submit" class="btn btn-primary">Buscar</button>
-        </div>
-      </div>
-    </form>
-  </ba-card>
+<div class="col-lg-6 col-md-12">
+  <new-client></new-client>
 </div>

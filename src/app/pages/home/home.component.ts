@@ -24,6 +24,7 @@ export class Home implements OnInit {
       edit: false,
       delete: false
     },
+    noDataMessage: 'No hay compras activas',
     columns: {
       id: {
         title: 'Cedula',
@@ -89,13 +90,13 @@ export class Home implements OnInit {
           client.map( (cliente) => {
             let precio = 0;
             order.map( (orden) => {
-              if ( (orden.idClient.toString() === cliente.$key) && (orden.available === true) ) {
+              if ( (orden.idClient.toString() === cliente.id.toString()) && (orden.available === true) ) {
                 // console.log('Cliente: ', cliente);
                 // console.log('Orden: ', orden);
                 orden.product.map((producto) => {
                   // console.log('productos: ', producto);
                     inventariado.map( (inventario) => {
-                      if (inventario.$key === producto.id.toString()) {
+                      if (inventario.id.toString() === producto.id.toString()) {
                         // console.log('Nombre', inventario.name);
                         precio = (inventario.price * producto.quantity) + precio;
                         // console.log(precio);
@@ -104,7 +105,7 @@ export class Home implements OnInit {
                     // console.log('Precio: ', precio);
                 });
                 this.objectInfo = {
-                  id: cliente.$key,
+                  id: cliente.id.toString(),
                   name: cliente.name,
                   account: precio + ' Bsf'
                 };

@@ -12,7 +12,8 @@ import { Router, RouterModule } from '@angular/router';
 
 export class Store implements OnInit {
 
-
+  public codigo;
+  public aux$;
   public items: FirebaseListObservable<any>;
   public aux: boolean = false;
   public showAccount = [];
@@ -29,7 +30,8 @@ export class Store implements OnInit {
     columns: {
       id: {
         title: 'Codigo',
-        type: 'string'
+        type: 'string',
+        sort: true
       },
       name: {
         title: 'Nombre',
@@ -41,10 +43,6 @@ export class Store implements OnInit {
       },
       price: {
         title: 'Precio',
-        type: 'string'
-      },
-      quantity: {
-        title: 'Existencia',
         type: 'string'
       },
       status: {
@@ -59,7 +57,7 @@ export class Store implements OnInit {
   productos: FirebaseListObservable<any>;
 
   constructor(
-                          af: AngularFire,
+              public      af: AngularFire,
               public localSt: LocalStorageService,
               public   route: Router) {
     this.users = af.database.list('/user/');
@@ -97,7 +95,7 @@ export class Store implements OnInit {
 
 
   public loadOn() {
-    this.productos.subscribe( (products) => {
+    this.aux$ = this.productos.subscribe( (products) => {
       console.log(products);
       products.map((data) => {
         console.log(data);
@@ -109,16 +107,33 @@ export class Store implements OnInit {
           aux = 'deshabilitado';
         }
         let prod = {
-          id: data.$key,
+          id: data.id.toString(),
           name: data.name,
           type: data.type,
           price: data.price,
-          quantity: data.quantity,
           status: aux
         };
         this.showAccount.push(prod);
       });
       this.source.load(this.showAccount);
+      this.aux$.unsubscribe();
     });
+  }
+
+  public restaurarProd(codigo) {
+    // this.saveFB(codigo.toString());
+  }
+
+   public saveFB(codigo: string): void {
+    let compra: Object = {
+        available : true,
+        id: codigo,
+        name: 'Aceite ST 15W40',
+        price: 15000,
+        type: 'Producto'
+      };
+    this.af.database.list('/product/').push(compra);
+    this.route.navigate(['pages/store']);
+    // this.productos.push(compra);
   }
 }
