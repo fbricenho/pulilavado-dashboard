@@ -7,6 +7,8 @@ import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 import { DialogFormModal } from 'angular2-modal/plugins/vex';
 
+declare let jsPDF;
+
 @Component({
   selector: 'newOrder',
   styleUrls: ['./newOrder.scss'],
@@ -41,11 +43,19 @@ export class NewOrder {
         let i = 0;
         for (let e  of ordenes) {
           console.log(e);
-          if ( (e.idClient === this.idInputModel) && (e.available === true) ) {
+          if ( (e.idClient.toString() === this.idInputModel.toString()) && (e.available === true) ) {
             this.orders$.unsubscribe();
             console.log('Coincidencia de compra');
             this.editOrden(e.idClient, e.$key);
             break;
+          }
+          if ( (e.idClient.toString() === this.idInputModel.toString()) && (e.available === false) ) {
+            console.log('cliente registrado');
+            this.aux = true;
+          }
+          if ( (this.aux === true) && ( i === ordenes.length ) ) {
+            console.log('debe registrar nueva compra ya con cliente registrado');
+            this.addOrden(this.idInputModel);
           }
           i++;
           if ( (i === ordenes.length) && (this.aux === false)  ) {
@@ -57,13 +67,6 @@ export class NewOrder {
                       .okBtn('Cancel')
                       .okBtnClass('btn btn-danger btn-raised')
                       .open();
-          }
-          if ( (e.idClient === this.idInputModel) && (e.available === false) ) {
-            console.log('cliente registrado');
-            this.aux = true;
-          }
-          if ( (this.aux === true) && ( i === ordenes.length ) ) {
-            console.log('debe registrar nueva compra ya con cliente registrado');
           }
         }
       });
@@ -106,47 +109,6 @@ export class NewOrder {
 
   }
 
-  /*
-    onsubmit(): void {
-      if (this.idInputModel) {
-        let aux: boolean = false;
-        let nombre: string;
-        let movimiento: string = '';
-        let orders$ = this.orders.subscribe((data) => {
-          data.map((e) => {
-            if ((e.idClient === this.idInputModel) && (e.available === true)) {
-              // VALIDAR
-              this.af.database.object('/client/' + e.idClient).subscribe( (clientN) => {
-                nombre = clientN.name;
-                console.log(nombre);
-                aux = true;
-                movimiento = e.$key;
-                console.log('Coincidencia: ', this.idInputModel);
-                console.log(movimiento);
-                this.modal.confirm()
-                          .body('Desea agregar un movimiento mas a la compra de: ' + nombre)
-                          .showClose(false)
-                          .isBlocking(true)
-                          .cancelBtn('No')
-                          .cancelBtnClass('btn btn-danger btn-raised')
-                          .okBtn('Si')
-                          .okBtnClass('btn btn-primary btn-raised')
-                          .open();
-                orders$.unsubscribe();
-              });
-            }
-          });
-          if (aux) {
-          }
-          else {
-            console.log('Puedes proseguir: ', this.idInputModel);
-          }
-        });
-
-      }
-    }
-
-    */
 
   public saveFB(movimiento: string): void {
     let compra: Object = {
