@@ -58,7 +58,7 @@ export class CloseOrder {
               .titleHtml('Cerrar orden')
               .showClose(false)
               .isBlocking(true)
-              .body('Facturar la orden del ID: ' + e.idClient)
+              .body('Facturar la orden de la cedula: ' + e.idClient)
               .cancelBtn('No')
               .cancelBtnClass('btn btn-danger btn raised')
               .okBtn('Si')
@@ -104,6 +104,7 @@ export class CloseOrder {
                   if (productoM$.id.toString() === prodClientM$.id.toString()) {
                     i++;
                     facturaCliente.producto.push({
+                      cantidad: prodClientM$.quantity,
                       name: productoM$.name,
                       tipo: productoM$.type,
                       price: productoM$.price,
@@ -148,16 +149,19 @@ export class CloseOrder {
     doc.setFontSize(12);
     doc.text(35, 60, 'Nombre');
     doc.text(85, 60, 'Tipo');
+    doc.text(115, 60, 'Cantidad');
     doc.text(155, 60, 'Costo');
     doc.line(35, 65, 170, 65);
     console.log(value.producto);
     doc.setFontSize(10);
     value.producto.map( (producto) => {
+      console.log(producto);
       y = y + 10;
       doc.text(35, y, producto.name);
       doc.text(85, y, producto.tipo);
+      doc.text(115, y, producto.cantidad.toString());
+      precio = (producto.price * producto.cantidad) + precio;
       doc.text(155, y, '' + producto.price.toString() + 'Bsf');
-      precio = producto.price + precio;
     });
     // Save the PDF
     doc.setFontSize(10);

@@ -1,6 +1,8 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Router } from '@angular/router';
+import { FormGroup, FormControl, FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { LocalStorageService, LocalStorage, SessionStorageService } from 'ng2-webstorage';
 
 // MODAL
 import { Overlay } from 'angular2-modal';
@@ -29,11 +31,12 @@ export class NewOrder {
     private overlay: Overlay,
     private vcRef: ViewContainerRef,
     private modal: Modal,
+    public fb: FormBuilder,
+    public localSt: LocalStorageService
   ) {
+
     this.clients = af.database.list('/client/');
     this.orders = af.database.list('/buy');
-
-    // this.id = this.form.controls['inputId'];
   }
 
   onsubmit(): void {
@@ -104,10 +107,14 @@ export class NewOrder {
         .open()
         .catch((err) => { console.log('ERROR'); })
         .then((dialog: any) =>  dialog.result )
-        .then((result) => { console.log('OK/YES button was press'); })
+        .then((result) => {
+          this.localSt.store('ordenKey', {key: idOrden});
+          this.route.navigate(['pages/editarOrden']);
+        })
         .catch((err) => { console.log('Cancel/No button was press'); });
 
   }
+
 
 
   public saveFB(movimiento: string): void {

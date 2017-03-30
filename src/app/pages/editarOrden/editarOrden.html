@@ -1,0 +1,36 @@
+<div class="col-lg-6">
+  <ba-card title="Editar una orden" baCardClass="with-scroll table-panel">
+    <div class="form-horizontal">
+      <div class="form-group row">
+        <label for="inputId" class="col-sm-12 col-md-7 col-lg-3 form-control-label">Codigo:</label>
+        <div class="col-sm-12 col-md-5 col-lg-9">
+          <input type="number" class="form-control" [(ngModel)]="inputCod" id="inputId" placeholder="1001" maxlength="4" required>
+        </div>
+      </div>
+      <div class="form-gorup row">
+        <label for="inputQt" class="col-sm-12 col-md-7 col-lg-3 form-control-label">Cantidad:</label>
+        <div class="col-sm-12 col-md-5 col-lg-9">
+          <input  type="number" class="form-control" [(ngModel)]="inputCan" id="inputQt" placeholder="00" maxlength="2" required>
+        </div>
+      </div>
+      <div class="form-group row">
+        <br>
+        <div class="col-sm-12 col-md-12 col-lg-12 text-right">
+          <button type="submit" (click)="onEdit(inputCod, inputCan)" class="btn btn-primary">Editar</button>
+        </div>
+      </div>
+    </div>
+  </ba-card>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <ba-card title="Inventario" baCardClass="with-scroll table-panel">
+      <ng2-smart-table *ngIf="showAccount.length" [settings]="settings" [source]="source"></ng2-smart-table>
+      <div *ngIf="!showAccount.length" class="form-group text-center">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+      </div>
+    </ba-card>
+  </div>
+</div>
